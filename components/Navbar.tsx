@@ -11,7 +11,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="text-xl font-medium tracking-tight text-slate">
-            Grade Zero
+            Better Face
           </a>
 
           {/* Desktop Navigation */}

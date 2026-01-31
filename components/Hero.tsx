@@ -10,20 +10,20 @@ export default function Hero() {
       <div className="relative max-w-4xl mx-auto px-6 py-24 text-center">
         {/* Editorial accent */}
         <p className="font-serif italic text-sage mb-6 text-lg">
-          Web design, simplified
+          Web design for small businesses
         </p>
 
         {/* Main headline */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-slate leading-tight tracking-tight mb-6">
-          Websites that work.
+          Your business deserves
           <br />
-          <span className="text-sage">Built in days, not months.</span>
+          <span className="text-sage">a better face online.</span>
         </h1>
 
         {/* Subhead */}
         <p className="text-lg md:text-xl text-slate/60 max-w-2xl mx-auto mb-10 leading-relaxed">
-          We craft beautiful, high-performance websites with speed and precision.
-          No endless timelines. No bloated budgets. Just results.
+          We help small businesses stand out with beautiful, professional websites.
+          Affordable pricing. Fast turnaround. Real results.
         </p>
 
         {/* CTA */}
@@ -44,7 +44,7 @@ export default function Hero() {
 
         {/* Trust indicator */}
         <p className="mt-16 text-sm text-slate/40">
-          Trusted by startups and small businesses
+          Trusted by small businesses across Africa
         </p>
       </div>
 

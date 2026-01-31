@@ -11,7 +11,7 @@ export default function Footer() {
               Ready to get started?
             </h2>
             <p className="text-white/60 mb-6 max-w-md">
-              Let's build something great together. Get a stunning website in 3 days or less.
+              Let's give your business the online presence it deserves. Professional websites, delivered fast.
             </p>
             <a
               href="#"
@@ -49,13 +49,13 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
-            <span className="text-xl font-medium">Grade Zero</span>
+            <span className="text-xl font-medium">Better Face</span>
             <span className="text-white/40">|</span>
-            <span className="text-sm text-white/40">Websites that work</span>
+            <span className="text-sm text-white/40">Web design for small businesses</span>
           </div>
 
           <p className="text-sm text-white/40">
-            &copy; {currentYear} Grade Zero. All rights reserved.
+            &copy; {currentYear} Better Face. All rights reserved.
           </p>
         </div>
       </div>
