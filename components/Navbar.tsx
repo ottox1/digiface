@@ -26,7 +26,7 @@ export default function Navbar() {
               FAQ
             </a>
             <a
-              href="#"
+              href="#inquiry"
               className="px-5 py-2.5 bg-sage text-white text-sm font-medium rounded-full hover:bg-sage-dark transition-colors"
             >
               Get Started
@@ -89,8 +89,9 @@ export default function Navbar() {
               FAQ
             </a>
             <a
-              href="#"
+              href="#inquiry"
               className="inline-block px-5 py-2.5 bg-sage text-white text-sm font-medium rounded-full hover:bg-sage-dark transition-colors"
+              onClick={() => setIsOpen(false)}
             >
               Get Started
             </a>

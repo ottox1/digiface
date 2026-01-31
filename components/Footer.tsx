@@ -14,7 +14,7 @@ export default function Footer() {
               Tell us about your project. We&apos;ll get back to you within 24 hours to talk through what you need.
             </p>
             <a
-              href="#pricing"
+              href="#inquiry"
               className="inline-block px-8 py-4 bg-sage text-white font-medium rounded-full hover:bg-sage-dark transition-all hover:shadow-lg hover:shadow-sage/20"
             >
               Start a conversation

@@ -44,8 +44,16 @@ const initialFormData: FormData = {
   budget: '',
 }
 
+const steps = [
+  { id: 1, title: 'About You', subtitle: 'Let\'s start with the basics' },
+  { id: 2, title: 'Your Business', subtitle: 'Tell us about what you do' },
+  { id: 3, title: 'Your Brand', subtitle: 'What assets do you have?' },
+  { id: 4, title: 'The Project', subtitle: 'What are we building?' },
+]
+
 export default function InquiryForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData)
+  const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState('')
@@ -57,8 +65,42 @@ export default function InquiryForm() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const validateStep = (step: number): boolean => {
+    switch (step) {
+      case 1:
+        return !!(formData.name && formData.email)
+      case 2:
+        return !!(formData.businessName && formData.industry && formData.businessStage)
+      case 3:
+        return !!(formData.hasLogo && formData.hasBrandAssets)
+      case 4:
+        return !!(formData.projectType && formData.timeline && formData.projectDescription)
+      default:
+        return true
+    }
+  }
+
+  const nextStep = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep((prev) => Math.min(prev + 1, 4))
+      setError('')
+    } else {
+      setError('Please fill in the required fields')
+    }
+  }
+
+  const prevStep = () => {
+    setCurrentStep((prev) => Math.max(prev - 1, 1))
+    setError('')
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!validateStep(4)) {
+      setError('Please fill in the required fields')
+      return
+    }
+    
     setIsSubmitting(true)
     setError('')
 
@@ -73,6 +115,7 @@ export default function InquiryForm() {
 
       setIsSubmitted(true)
       setFormData(initialFormData)
+      setCurrentStep(1)
     } catch (err) {
       setError('Something went wrong. Please try again or email us directly.')
     } finally {
@@ -83,7 +126,7 @@ export default function InquiryForm() {
   if (isSubmitted) {
     return (
       <section id="inquiry" className="py-24 bg-stone">
-        <div className="max-w-2xl mx-auto px-6 text-center">
+        <div className="max-w-xl mx-auto px-6 text-center">
           <div className="bg-fog rounded-2xl p-12 shadow-sm">
             <div className="w-16 h-16 bg-sage/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <svg className="w-8 h-8 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,25 +152,60 @@ export default function InquiryForm() {
 
   return (
     <section id="inquiry" className="py-24 bg-stone">
-      <div className="max-w-3xl mx-auto px-6">
+      <div className="max-w-xl mx-auto px-6">
         {/* Section header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <p className="font-serif italic text-sage mb-3">Let&apos;s talk</p>
           <h2 className="text-3xl md:text-4xl font-medium text-slate mb-4">
             Tell us about your project
           </h2>
-          <p className="text-slate/60 max-w-xl mx-auto">
-            Fill out the form below and we&apos;ll get back to you within 24 hours to schedule a discovery call.
-          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-fog rounded-2xl p-8 md:p-10 shadow-sm">
-          {/* About You */}
-          <div className="mb-10">
-            <h3 className="text-lg font-medium text-slate mb-6 pb-2 border-b border-stone">
-              About You
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
+        {/* Progress indicator */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            {steps.map((step) => (
+              <div key={step.id} className="flex flex-col items-center">
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all ${
+                    currentStep === step.id
+                      ? 'bg-sage text-white'
+                      : currentStep > step.id
+                      ? 'bg-sage/20 text-sage'
+                      : 'bg-fog text-slate/40'
+                  }`}
+                >
+                  {currentStep > step.id ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    step.id
+                  )}
+                </div>
+                <span className="hidden sm:block text-xs text-slate/50 mt-2">{step.title}</span>
+              </div>
+            ))}
+          </div>
+          <div className="h-1 bg-fog rounded-full overflow-hidden">
+            <div
+              className="h-full bg-sage transition-all duration-300"
+              style={{ width: `${((currentStep - 1) / 3) * 100}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="bg-fog rounded-2xl p-8 shadow-sm">
+          {/* Step header */}
+          <div className="mb-6">
+            <h3 className="text-lg font-medium text-slate">{steps[currentStep - 1].title}</h3>
+            <p className="text-sm text-slate/60">{steps[currentStep - 1].subtitle}</p>
+          </div>
+
+          {/* Step 1: About You */}
+          {currentStep === 1 && (
+            <div className="space-y-5">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-slate mb-2">
                   Your name <span className="text-sage">*</span>
@@ -136,7 +214,6 @@ export default function InquiryForm() {
                   type="text"
                   id="name"
                   name="name"
-                  required
                   value={formData.name}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate placeholder:text-slate/40 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all"
@@ -151,7 +228,6 @@ export default function InquiryForm() {
                   type="email"
                   id="email"
                   name="email"
-                  required
                   value={formData.email}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate placeholder:text-slate/40 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all"
@@ -187,14 +263,11 @@ export default function InquiryForm() {
                 />
               </div>
             </div>
-          </div>
+          )}
 
-          {/* About Your Business */}
-          <div className="mb-10">
-            <h3 className="text-lg font-medium text-slate mb-6 pb-2 border-b border-stone">
-              About Your Business
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
+          {/* Step 2: Your Business */}
+          {currentStep === 2 && (
+            <div className="space-y-5">
               <div>
                 <label htmlFor="businessName" className="block text-sm font-medium text-slate mb-2">
                   Business name <span className="text-sage">*</span>
@@ -203,7 +276,6 @@ export default function InquiryForm() {
                   type="text"
                   id="businessName"
                   name="businessName"
-                  required
                   value={formData.businessName}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate placeholder:text-slate/40 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all"
@@ -218,7 +290,6 @@ export default function InquiryForm() {
                   type="text"
                   id="industry"
                   name="industry"
-                  required
                   value={formData.industry}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate placeholder:text-slate/40 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all"
@@ -232,7 +303,6 @@ export default function InquiryForm() {
                 <select
                   id="businessStage"
                   name="businessStage"
-                  required
                   value={formData.businessStage}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all appearance-none cursor-pointer"
@@ -257,7 +327,7 @@ export default function InquiryForm() {
                   placeholder="https://yoursite.com"
                 />
               </div>
-              <div className="md:col-span-2">
+              <div>
                 <label htmlFor="socialLinks" className="block text-sm font-medium text-slate mb-2">
                   Social media links <span className="text-slate/40">(optional)</span>
                 </label>
@@ -272,14 +342,11 @@ export default function InquiryForm() {
                 />
               </div>
             </div>
-          </div>
+          )}
 
-          {/* Your Brand */}
-          <div className="mb-10">
-            <h3 className="text-lg font-medium text-slate mb-6 pb-2 border-b border-stone">
-              Your Brand
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
+          {/* Step 3: Your Brand */}
+          {currentStep === 3 && (
+            <div className="space-y-5">
               <div>
                 <label htmlFor="hasLogo" className="block text-sm font-medium text-slate mb-2">
                   Do you have a logo? <span className="text-sage">*</span>
@@ -287,7 +354,6 @@ export default function InquiryForm() {
                 <select
                   id="hasLogo"
                   name="hasLogo"
-                  required
                   value={formData.hasLogo}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all appearance-none cursor-pointer"
@@ -305,7 +371,6 @@ export default function InquiryForm() {
                 <select
                   id="hasBrandAssets"
                   name="hasBrandAssets"
-                  required
                   value={formData.hasBrandAssets}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all appearance-none cursor-pointer"
@@ -316,14 +381,14 @@ export default function InquiryForm() {
                   <option value="fresh">Starting fresh</option>
                 </select>
               </div>
-              <div className="md:col-span-2">
+              <div>
                 <label htmlFor="inspiredSites" className="block text-sm font-medium text-slate mb-2">
                   Websites you like <span className="text-slate/40">(optional)</span>
                 </label>
                 <textarea
                   id="inspiredSites"
                   name="inspiredSites"
-                  rows={2}
+                  rows={3}
                   value={formData.inspiredSites}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate placeholder:text-slate/40 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all resize-none"
@@ -331,14 +396,11 @@ export default function InquiryForm() {
                 />
               </div>
             </div>
-          </div>
+          )}
 
-          {/* The Project */}
-          <div className="mb-10">
-            <h3 className="text-lg font-medium text-slate mb-6 pb-2 border-b border-stone">
-              The Project
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
+          {/* Step 4: The Project */}
+          {currentStep === 4 && (
+            <div className="space-y-5">
               <div>
                 <label htmlFor="projectType" className="block text-sm font-medium text-slate mb-2">
                   What do you need? <span className="text-sage">*</span>
@@ -346,7 +408,6 @@ export default function InquiryForm() {
                 <select
                   id="projectType"
                   name="projectType"
-                  required
                   value={formData.projectType}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all appearance-none cursor-pointer"
@@ -364,7 +425,6 @@ export default function InquiryForm() {
                 <select
                   id="timeline"
                   name="timeline"
-                  required
                   value={formData.timeline}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all appearance-none cursor-pointer"
@@ -395,7 +455,7 @@ export default function InquiryForm() {
                   <option value="unsure">Not sure yet</option>
                 </select>
               </div>
-              <div className="md:col-span-2">
+              <div>
                 <label htmlFor="projectDescription" className="block text-sm font-medium text-slate mb-2">
                   Tell us about your project <span className="text-sage">*</span>
                 </label>
@@ -403,7 +463,6 @@ export default function InquiryForm() {
                   id="projectDescription"
                   name="projectDescription"
                   rows={4}
-                  required
                   value={formData.projectDescription}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border border-stone bg-white text-slate placeholder:text-slate/40 focus:outline-none focus:ring-2 focus:ring-sage/50 focus:border-sage transition-all resize-none"
@@ -411,26 +470,47 @@ export default function InquiryForm() {
                 />
               </div>
             </div>
-          </div>
+          )}
 
           {/* Error message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+            <div className="mt-5 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
               {error}
             </div>
           )}
 
-          {/* Submit button */}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-4 bg-sage text-white font-medium rounded-full hover:bg-sage-dark transition-all hover:shadow-lg hover:shadow-sage/20 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? 'Sending...' : 'Send inquiry'}
-          </button>
+          {/* Navigation buttons */}
+          <div className="mt-8 flex gap-4">
+            {currentStep > 1 && (
+              <button
+                type="button"
+                onClick={prevStep}
+                className="flex-1 py-3 px-6 border border-stone text-slate font-medium rounded-full hover:bg-stone transition-all"
+              >
+                Back
+              </button>
+            )}
+            {currentStep < 4 ? (
+              <button
+                type="button"
+                onClick={nextStep}
+                className="flex-1 py-3 px-6 bg-sage text-white font-medium rounded-full hover:bg-sage-dark transition-all"
+              >
+                Continue
+              </button>
+            ) : (
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex-1 py-3 px-6 bg-sage text-white font-medium rounded-full hover:bg-sage-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Sending...' : 'Send inquiry'}
+              </button>
+            )}
+          </div>
 
           <p className="mt-4 text-center text-sm text-slate/50">
-            We&apos;ll get back to you within 24 hours
+            Step {currentStep} of 4
           </p>
         </form>
       </div>
