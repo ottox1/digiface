@@ -208,7 +208,7 @@ export default function InquiryForm() {
             <div className="space-y-5">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-slate mb-2">
-                  Your name <span className="text-sage">*</span>
+                  Your full name <span className="text-sage">*</span>
                 </label>
                 <input
                   type="text"
