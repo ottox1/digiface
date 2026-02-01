@@ -4,34 +4,54 @@ import { useState } from 'react'
 
 const faqs = [
   {
-    question: 'How do you work so fast?',
+    question: 'How much does a website cost?',
     answer:
-      "We're a small team with years of experience. No layers of management, no endless meetings. We use proven tools and templates as starting points, then customize everything for you. When it's just a few people who know what they're doing, things move quickly.",
+      'Depends on what you need. Refresh (existing-site touch-up) starts at $500. Starter sites (5 pages) are $1,000. Growth sites (10 pages) are $2,000. Custom projects are quoted based on scope.',
   },
   {
-    question: 'What do I need to give you?',
+    question: 'How long does it take?',
     answer:
-      "Your logo, brand colors, fonts if you have them, and the content you want on your site (text and images). We'll also need about 30 minutes of your time for a quick call to understand your vision. Don't have content ready? We can help with that too.",
+      'Refresh: 3–5 days. Starter: 5–7 days. Growth and custom projects depend on complexity — we'll give you a timeline upfront.',
   },
   {
-    question: 'What does maintenance include?',
+    question: 'What do I need to provide?',
     answer:
-      "We keep your site healthy — regular updates, security patches, content changes when you need them, and performance checks. We're also just a message away if something breaks or you need a quick tweak. Plans start at $100/month.",
+      'Your logo (if you have one), photos of your work, a list of services you offer, your service area, and contact info. That's it. We handle the rest.',
   },
   {
-    question: 'Can you fix my existing site?',
+    question: 'Do I need to be technical?',
     answer:
-      "That's exactly what our Refresh package is for. We'll modernize the look, fix what's broken, speed things up, and make sure it works on mobile. You don't always need to start from scratch.",
+      'Not at all. We handle everything — you just review and give feedback.',
   },
   {
-    question: 'What platforms do you use?',
+    question: 'How many rounds of edits do I get?',
     answer:
-      "We mostly build with modern tools like Next.js, but we're flexible. If you need WordPress, Webflow, Shopify, or something else — we'll work with whatever makes sense for your project and what you'll need long-term.",
+      'Three rounds are included with every package.',
   },
   {
-    question: 'How many revisions do I get?',
+    question: 'Can you build on Shopify or Wix?',
     answer:
-      "Every package includes three rounds of revisions. But honestly, because we work closely with you throughout, there are rarely big surprises by the end. Most of our clients are happy before we even hit round three.",
+      'Yes, but there's an additional porting cost. The fee varies depending on the project and which platform you want to port to.',
+  },
+  {
+    question: 'What do you build with?',
+    answer:
+      'We build code-based sites. After delivery, if you want to make changes yourself, you'd need to hire a developer or port to another platform.',
+  },
+  {
+    question: 'Do I have to pay for hosting or other tools?',
+    answer:
+      'No — you pay providers directly. We can help set things up for an additional fee.',
+  },
+  {
+    question: 'Will my site work on phones?',
+    answer:
+      'Yes. Every site is fully responsive and tested on mobile.',
+  },
+  {
+    question: 'Do you offer ongoing support?',
+    answer:
+      'Yes. Our maintenance package is $100/month (billed as $300 for 3 months). Includes 6 rounds of updates, content changes, security checks, and analytics reviews every 2 weeks.',
   },
 ]
 
