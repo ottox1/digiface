@@ -11,12 +11,12 @@ const faqs = [
   {
     question: 'How long does it take?',
     answer:
-      'Refresh: 3–5 days. Starter: 5–7 days. Growth and custom projects depend on complexity — we'll give you a timeline upfront.',
+      "Refresh: 3–5 days. Starter: 5–7 days. Growth and custom projects depend on complexity — we'll give you a timeline upfront.",
   },
   {
     question: 'What do I need to provide?',
     answer:
-      'Your logo (if you have one), photos of your work, a list of services you offer, your service area, and contact info. That's it. We handle the rest.',
+      "Your logo (if you have one), photos of your work, a list of services you offer, your service area, and contact info. That's it. We handle the rest.",
   },
   {
     question: 'Do I need to be technical?',
@@ -31,12 +31,12 @@ const faqs = [
   {
     question: 'Can you build on Shopify or Wix?',
     answer:
-      'Yes, but there's an additional porting cost. The fee varies depending on the project and which platform you want to port to.',
+      "Yes, but there's an additional porting cost. The fee varies depending on the project and which platform you want to port to.",
   },
   {
     question: 'What do you build with?',
     answer:
-      'We build code-based sites. After delivery, if you want to make changes yourself, you'd need to hire a developer or port to another platform.',
+      "We build code-based sites. After delivery, if you want to make changes yourself, you'd need to hire a developer or port to another platform.",
   },
   {
     question: 'Do I have to pay for hosting or other tools?',
