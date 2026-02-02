@@ -9,6 +9,13 @@
   --sage-dark: #5C6E62;
   --stone: #E5E5E3;
   --mist: #B8C4BA;
+  /* Tetris accent colors */
+  --coral: #E07A5F;
+  --golden: #E9C46A;
+  --sky: #7FB3D5;
+  --teal: #2A6F7C;
+  --berry: #9B4D6C;
+  --tangerine: #F2994A;
 }
 
 * {
@@ -25,7 +32,7 @@ body {
 
 body {
   color: var(--slate);
-  background: var(--fog);
+  background: #FAFAFA;
 }
 
 a {
@@ -52,6 +59,21 @@ html {
 
 /* Selection color */
 ::selection {
-  background-color: var(--mist);
-  color: var(--slate);
+  background-color: var(--coral);
+  color: white;
+}
+
+/* Tetris block animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+.tetris-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.tetris-float-delayed {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: -3s;
 }
